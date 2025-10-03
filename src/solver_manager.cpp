@@ -780,10 +780,11 @@ SolverManager::add_option(SolverOption* opt)
 }
 
 void
-SolverManager::report_result(Solver::Result res)
+SolverManager::report_result(Solver::Result res, bool with_assumptions)
 {
   d_sat_result = res;
   d_sat_called = true;
+  d_sat_with_assumptions = with_assumptions;
   ++d_n_sat_calls;
   ++d_mbt_stats->d_results[res];
 }

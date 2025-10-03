@@ -786,9 +786,11 @@ class SolverManager
 
   /**
    * Report solver result to solver manager.
-   * @param res The solver result.
+   * @param res              The solver result.
+   * @param with_assumptions True if result has been determined with
+   *                         assumptions (check-sat-assuming).
    */
-  void report_result(Solver::Result res);
+  void report_result(Solver::Result res, bool with_assumptions);
 
   /**
    * Get the currently configured solver profile.
@@ -849,7 +851,8 @@ class SolverManager
    * While true it is save to check failed assumptions and query model values.
    */
   bool d_sat_called = false;
-
+  /** True if previous sat call was with assumptions. */
+  bool d_sat_with_assumptions = false;
   /** The result of the previous sat call. */
   Solver::Result d_sat_result = Solver::Result::UNKNOWN;
 

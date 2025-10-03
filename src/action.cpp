@@ -3279,7 +3279,7 @@ ActionCheckSat::run()
 {
   MURXLA_TRACE << get_kind();
   reset_sat();
-  d_smgr.report_result(d_solver.check_sat());
+  d_smgr.report_result(d_solver.check_sat(), false);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -3333,7 +3333,7 @@ ActionCheckSatAssuming::run(const std::vector<Term>& assumptions)
   {
     d_smgr.add_assumption(t);
   }
-  d_smgr.report_result(d_solver.check_sat_assuming(assumptions));
+  d_smgr.report_result(d_solver.check_sat_assuming(assumptions), true);
 }
 
 /* -------------------------------------------------------------------------- */

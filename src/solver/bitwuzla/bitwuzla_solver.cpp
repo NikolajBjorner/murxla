@@ -1709,10 +1709,18 @@ class BitwuzlaActionTermValue : public Action
     /* assume assignment and check if result is still SAT */
     Term val_term =
         std::shared_ptr<BitwuzlaTerm>(new BitwuzlaTerm(tm, bzla_val_term));
-    std::vector<Term> assumptions{
-        d_solver.mk_term(Op::EQUAL, {term, val_term}, {})};
-    MURXLA_TEST(d_solver.check_sat_assuming(assumptions)
-                == Solver::Result::SAT);
+    // We do not have access to the assumpionts of a check-sat-assuming call,
+    // and the check-sat-assuming action cannot cache its assumptions via
+    // SolverManager::add_assumption since we cannot properly determine when
+    // to clear them. Thus we can only check if the result is still SAT after
+    // adding back the term value if it is a plain check-sat call.
+    if (!d_smgr.d_sat_with_assumptions)
+    {
+      std::vector<Term> assumptions{
+          d_solver.mk_term(Op::EQUAL, {term, val_term}, {})};
+      MURXLA_TEST(d_solver.check_sat_assuming(assumptions)
+                  == Solver::Result::SAT);
+    }
   }
 };
 
@@ -2086,9 +2094,10 @@ BitwuzlaSolver::configure_fsm(FSM* fsm) const
 
   /* Add solver-specific actions and reconfigure existing states. */
   s_decide_sat_unsat->add_action(t_default, 1, s_unknown);
-  // bitwuzla::Term::value()
+  // bitwuzla::Term::value
   auto a_term_val = fsm->new_action<BitwuzlaActionTermValue>();
   s_sat->add_action(a_term_val, 2);
+
   // bitwuzla_is_unsat_assumption
   // auto a_failed = fsm->new_action<BitwuzlaActionIsUnsatAssumption>();
   // fsm->add_action_to_all_states(a_failed, 100);
@@ -2103,8 +2112,9 @@ BitwuzlaSolver::configure_fsm(FSM* fsm) const
   // s_check_sat->add_action(a_simplify, 10000, s_create_terms);
   // s_sat->add_action(a_simplify, 10000, s_create_terms);
   // s_unsat->add_action(a_simplify, 10000, s_create_terms);
-  // bitwuzla_substitute_term
-  // bitwuzla_substitute_terms
+
+  // bitwuzla::Term::substitute_term
+  // bitwuzla::Term::substitute_terms
   auto a_subst_term = fsm->new_action<BitwuzlaActionSubstituteTerm>();
   fsm->add_action_to_all_states(a_subst_term, 1000);
 
