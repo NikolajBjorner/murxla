@@ -13,6 +13,7 @@
 
 #include "config.hpp"
 #include "solver/z3/profile.hpp"
+#include "util.hpp"
 
 namespace murxla {
 namespace z3solver {
@@ -337,8 +338,9 @@ void
 Z3Solver::new_solver()
 {
   d_context.reset(new z3::context());
-  d_params = z3::params(*d_context);
   d_solver.reset(new z3::solver(*d_context));
+  // Initialize params with context - params will be set on solver via set_opt()
+  d_params = z3::params(*d_context);
   d_is_initialized = true;
 }
 
@@ -391,7 +393,7 @@ Z3Solver::set_opt(const std::string& opt, const std::string& value)
   assert(d_context);
   if (opt == "incremental")
   {
-    // Z3 is incremental by default
+    // Z3 supports incremental solving via push/pop by default, no option needed
     return;
   }
   else if (opt == "produce-models")
@@ -453,7 +455,8 @@ Z3Solver::get_option_name_unsat_cores() const
 bool
 Z3Solver::option_incremental_enabled() const
 {
-  return true;  // Z3 is always incremental
+  // Z3 supports incremental solving via push/pop by default
+  return true;
 }
 
 bool
@@ -576,18 +579,59 @@ Z3Solver::mk_value(Sort sort, const std::string& value, Base base)
   uint32_t bw = sort->get_bv_size();
   z3::expr result(*d_context);
   
+  // Z3's bv_val can handle decimal strings and integer values
+  // For hex and binary, convert to decimal
   if (base == DEC)
   {
+    // Decimal: Z3 can handle this directly
     result = d_context->bv_val(value.c_str(), bw);
   }
   else if (base == HEX)
   {
-    result = d_context->bv_val(value.c_str(), bw);
+    // Hexadecimal: Try to convert if small enough, otherwise use string conversion
+    if (bw <= 64)
+    {
+      try {
+        uint64_t val = std::stoull(value, nullptr, 16);
+        result = d_context->bv_val(static_cast<uint64_t>(val), bw);
+      }
+      catch (const std::exception&) {
+        // Fallback: convert hex->bin->dec
+        std::string bin_str = str_hex_to_bin(value);
+        std::string dec_str = str_bin_to_dec(bin_str);
+        result = d_context->bv_val(dec_str.c_str(), bw);
+      }
+    }
+    else
+    {
+      // For large bit-vectors, convert hex->bin->dec
+      std::string bin_str = str_hex_to_bin(value);
+      std::string dec_str = str_bin_to_dec(bin_str);
+      result = d_context->bv_val(dec_str.c_str(), bw);
+    }
   }
   else
   {
     assert(base == BIN);
-    result = d_context->bv_val(value.c_str(), bw);
+    // Binary: Try to convert if small enough, otherwise use string conversion
+    if (bw <= 64)
+    {
+      try {
+        uint64_t val = std::stoull(value, nullptr, 2);
+        result = d_context->bv_val(static_cast<uint64_t>(val), bw);
+      }
+      catch (const std::exception&) {
+        // Fallback: convert bin->dec
+        std::string dec_str = str_bin_to_dec(value);
+        result = d_context->bv_val(dec_str.c_str(), bw);
+      }
+    }
+    else
+    {
+      // For large bit-vectors, convert bin->dec
+      std::string dec_str = str_bin_to_dec(value);
+      result = d_context->bv_val(dec_str.c_str(), bw);
+    }
   }
   
   return std::shared_ptr<Z3Term>(new Z3Term(result));
