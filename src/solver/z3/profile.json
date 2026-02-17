@@ -17,7 +17,9 @@
   "sorts": {
     "exclude": [
       "SORT_FUN",
-      "SORT_REGLAN"
+      "SORT_REGLAN",
+      "SORT_BAG",
+      "SORT_SET"
     ]
   }
 }

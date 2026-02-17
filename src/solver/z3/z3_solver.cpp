@@ -538,10 +538,14 @@ Z3Solver::mk_value(Sort sort, const std::string& value)
       z3_result = d_context->real_val(value.c_str());
       break;
     
+    case SORT_STRING:
+      z3_result = d_context->string_val(value.c_str());
+      break;
+    
     default:
       MURXLA_CHECK_CONFIG(false)
           << "unexpected sort of kind '" << sort->get_kind()
-          << "' as argument to Z3Solver::mk_value, expected Integer or Real sort";
+          << "' as argument to Z3Solver::mk_value, expected Integer, Real, or String sort";
   }
   
   return std::shared_ptr<Z3Term>(new Z3Term(z3_result));
@@ -777,6 +781,10 @@ Z3Solver::mk_sort(SortKind kind)
       z3_result = d_context->fpa_rounding_mode_sort();
       break;
     
+    case SORT_STRING:
+      z3_result = d_context->string_sort();
+      break;
+    
     default:
       MURXLA_CHECK_CONFIG(false)
           << "unsupported sort kind '" << kind
@@ -843,6 +851,14 @@ Z3Solver::mk_sort(SortKind kind, const std::vector<Sort>& sorts)
       ::z3::sort index_sort = Z3Sort::get_z3_sort(sorts[0]);
       ::z3::sort element_sort = Z3Sort::get_z3_sort(sorts[1]);
       z3_result = d_context->array_sort(index_sort, element_sort);
+      break;
+    }
+    
+    case SORT_SEQ:
+    {
+      assert(sorts.size() == 1);
+      ::z3::sort element_sort = Z3Sort::get_z3_sort(sorts[0]);
+      z3_result = d_context->seq_sort(element_sort);
       break;
     }
     
