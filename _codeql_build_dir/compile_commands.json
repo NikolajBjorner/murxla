@@ -1,0 +1,164 @@
+[
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/action.cpp.o -c /home/runner/work/murxla/murxla/src/action.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/action.cpp",
+  "output": "src/CMakeFiles/murxla.dir/action.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/dd.cpp.o -c /home/runner/work/murxla/murxla/src/dd.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/dd.cpp",
+  "output": "src/CMakeFiles/murxla.dir/dd.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/except.cpp.o -c /home/runner/work/murxla/murxla/src/except.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/except.cpp",
+  "output": "src/CMakeFiles/murxla.dir/except.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/fsm.cpp.o -c /home/runner/work/murxla/murxla/src/fsm.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/fsm.cpp",
+  "output": "src/CMakeFiles/murxla.dir/fsm.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/main.cpp.o -c /home/runner/work/murxla/murxla/src/main.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/main.cpp",
+  "output": "src/CMakeFiles/murxla.dir/main.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/murxla.cpp.o -c /home/runner/work/murxla/murxla/src/murxla.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/murxla.cpp",
+  "output": "src/CMakeFiles/murxla.dir/murxla.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/op.cpp.o -c /home/runner/work/murxla/murxla/src/op.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/op.cpp",
+  "output": "src/CMakeFiles/murxla.dir/op.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/result.cpp.o -c /home/runner/work/murxla/murxla/src/result.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/result.cpp",
+  "output": "src/CMakeFiles/murxla.dir/result.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/rng.cpp.o -c /home/runner/work/murxla/murxla/src/rng.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/rng.cpp",
+  "output": "src/CMakeFiles/murxla.dir/rng.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver_manager.cpp.o -c /home/runner/work/murxla/murxla/src/solver_manager.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver_manager.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver_manager.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver_option.cpp.o -c /home/runner/work/murxla/murxla/src/solver_option.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver_option.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver_option.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/sort.cpp.o -c /home/runner/work/murxla/murxla/src/sort.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/sort.cpp",
+  "output": "src/CMakeFiles/murxla.dir/sort.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/statistics.cpp.o -c /home/runner/work/murxla/murxla/src/statistics.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/statistics.cpp",
+  "output": "src/CMakeFiles/murxla.dir/statistics.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/term_db.cpp.o -c /home/runner/work/murxla/murxla/src/term_db.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/term_db.cpp",
+  "output": "src/CMakeFiles/murxla.dir/term_db.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/theory.cpp.o -c /home/runner/work/murxla/murxla/src/theory.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/theory.cpp",
+  "output": "src/CMakeFiles/murxla.dir/theory.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/util.cpp.o -c /home/runner/work/murxla/murxla/src/util.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/util.cpp",
+  "output": "src/CMakeFiles/murxla.dir/util.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/btor/btor_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/btor/btor_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/btor/btor_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/btor/btor_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/bitwuzla/bitwuzla_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/bitwuzla/bitwuzla_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/bitwuzla/bitwuzla_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/bitwuzla/bitwuzla_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/cvc5/cvc5_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/cvc5/cvc5_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/cvc5/cvc5_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/cvc5/cvc5_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/cvc5/cvc5_tracer.cpp.o -c /home/runner/work/murxla/murxla/src/solver/cvc5/cvc5_tracer.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/cvc5/cvc5_tracer.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/cvc5/cvc5_tracer.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/yices/yices_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/yices/yices_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/yices/yices_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/yices/yices_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/z3/z3_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/z3/z3_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/z3/z3_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/z3/z3_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/smt2/smt2_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/smt2/smt2_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/smt2/smt2_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/smt2/smt2_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/meta/check_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/meta/check_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/meta/check_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/meta/check_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/meta/shadow_solver.cpp.o -c /home/runner/work/murxla/murxla/src/solver/meta/shadow_solver.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/meta/shadow_solver.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/meta/shadow_solver.cpp.o"
+},
+{
+  "directory": "/home/runner/work/murxla/murxla/_codeql_build_dir/src",
+  "command": "/home/runner/work/murxla/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -DJSON_DIAGNOSTICS=0 -DJSON_USE_IMPLICIT_CONVERSIONS=1 -DMURXLA_USE_Z3 -I/home/runner/work/murxla/murxla/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/src -I/home/runner/work/murxla/murxla/_codeql_build_dir/_deps/json-src/single_include -O3 -Wall -Wconversion -O3 -DNDEBUG -std=gnu++17 -o CMakeFiles/murxla.dir/solver/solver_profile.cpp.o -c /home/runner/work/murxla/murxla/src/solver/solver_profile.cpp",
+  "file": "/home/runner/work/murxla/murxla/src/solver/solver_profile.cpp",
+  "output": "src/CMakeFiles/murxla.dir/solver/solver_profile.cpp.o"
+}
+]
