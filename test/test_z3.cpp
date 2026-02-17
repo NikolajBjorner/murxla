@@ -214,4 +214,43 @@ TEST_F(Z3BasicTest, lambda_functions)
   ASSERT_EQ(check, z3::sat);
 }
 
+TEST_F(Z3BasicTest, multi_argument_lambda)
+{
+  // Test multi-argument lambda: lambda x, y. x + y > 10
+  z3::expr x = ctx->int_const("x");
+  z3::expr y = ctx->int_const("y");
+  z3::expr body = (x + y) > ctx->int_val(10);
+  
+  z3::expr_vector vars(*ctx);
+  vars.push_back(x);
+  vars.push_back(y);
+  
+  // Create lambda: lambda x, y. x + y > 10
+  z3::expr lambda_expr = z3::lambda(vars, body);
+  
+  // Verify the lambda has an n-dimensional array sort
+  // Z3 uses n-dimensional arrays: (Array Int Int Bool)
+  ASSERT_TRUE(lambda_expr.get_sort().is_array());
+  std::cout << "Multi-arg lambda sort: " << lambda_expr.get_sort() << std::endl;
+  
+  // For n-dimensional arrays, domain gives only the first dimension
+  ASSERT_TRUE(lambda_expr.get_sort().array_domain().is_int());
+  ASSERT_TRUE(lambda_expr.get_sort().array_range().is_bool());
+  
+  // Test application using Z3 C API for n-dimensional select
+  Z3_ast indices[] = {ctx->int_val(5), ctx->int_val(6)};
+  Z3_ast result_ast = Z3_mk_select_n(
+    ctx->operator Z3_context(),
+    lambda_expr,
+    2,
+    indices
+  );
+  z3::expr app(*ctx, result_ast);
+  
+  // lambda(5, 6) should be (5 + 6 > 10) = (11 > 10) = true
+  solver->add(app);
+  z3::check_result check = solver->check();
+  ASSERT_EQ(check, z3::sat);
+}
+
 #endif  // MURXLA_USE_Z3

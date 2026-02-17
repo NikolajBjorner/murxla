@@ -178,18 +178,15 @@ uint32_t
 Z3Sort::get_fun_arity() const
 {
   assert(is_fun());
-  // For function sorts represented as arrays, arity is always 1
-  // (single domain sort mapped to codomain)
-  // Multi-argument functions would need nested arrays or tuples
-  return 1;
+  // Return the number of stored domain sorts
+  return static_cast<uint32_t>(d_fun_domain_sorts.size());
 }
 
 Sort
 Z3Sort::get_fun_codomain_sort() const
 {
   assert(is_fun());
-  // Function sort is represented as an array sort: domain -> codomain
-  // The codomain is the array range
+  // The codomain is the final range of the array sort
   ::z3::sort range = d_sort.array_range();
   return std::shared_ptr<Z3Sort>(new Z3Sort(range, false));
 }
@@ -198,12 +195,8 @@ std::vector<Sort>
 Z3Sort::get_fun_domain_sorts() const
 {
   assert(is_fun());
-  // Function sort is represented as an array sort: domain -> codomain
-  // The domain is the array index sort
-  std::vector<Sort> domains;
-  ::z3::sort domain = d_sort.array_domain();
-  domains.push_back(std::shared_ptr<Z3Sort>(new Z3Sort(domain, false)));
-  return domains;
+  // Return the stored domain sorts
+  return d_fun_domain_sorts;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -887,56 +880,39 @@ Z3Solver::mk_sort(SortKind kind, const std::vector<Sort>& sorts)
     
     case SORT_FUN:
     {
-      // Z3 represents function sorts as array sorts
-      // For now, support only single-argument functions: domain -> codomain
-      // Multi-argument functions would require tuple domains
+      // Z3 represents function sorts as n-dimensional array sorts
+      // Single-arg: Array domain codomain
+      // Multi-arg: Array domain1 domain2 ... domainN codomain
       assert(sorts.size() >= 2);
       
-      if (sorts.size() == 2) {
-        // Simple case: single domain -> codomain
-        ::z3::sort domain = Z3Sort::get_z3_sort(sorts[0]);
-        ::z3::sort codomain = Z3Sort::get_z3_sort(sorts[1]);
-        z3_result = d_context->array_sort(domain, codomain);
-      } else {
-        // Multiple domain sorts: use tuple for domain
-        // Create a tuple sort for the domain
-        std::vector<Z3_sort> domain_sorts;
-        std::string tuple_name = "FunDomain_" + std::to_string(sorts.size() - 1);
-        std::vector<std::string> field_names;
-        
-        for (size_t i = 0; i < sorts.size() - 1; ++i) {
-          domain_sorts.push_back(Z3Sort::get_z3_sort(sorts[i]));
-          field_names.push_back("arg" + std::to_string(i));
-        }
-        
-        // Create tuple sort using C API
-        std::vector<Z3_symbol> field_symbols;
-        for (const auto& name : field_names) {
-          field_symbols.push_back(Z3_mk_string_symbol(d_context->operator Z3_context(), name.c_str()));
-        }
-        
-        Z3_symbol tuple_symbol = Z3_mk_string_symbol(d_context->operator Z3_context(), tuple_name.c_str());
-        Z3_func_decl tuple_constructor;
-        std::vector<Z3_func_decl> tuple_projections(domain_sorts.size());
-        
-        Z3_sort tuple_sort = Z3_mk_tuple_sort(
-          d_context->operator Z3_context(),
-          tuple_symbol,
-          static_cast<unsigned>(domain_sorts.size()),
-          field_symbols.data(),
-          domain_sorts.data(),
-          &tuple_constructor,
-          tuple_projections.data()
-        );
-        d_context->check_error();
-        
-        ::z3::sort domain((*d_context), tuple_sort);
+      // Extract domain sorts (all but the last one)
+      std::vector<Sort> domain_sorts(sorts.begin(), sorts.end() - 1);
+      
+      if (domain_sorts.size() == 1) {
+        // Single-argument function
+        ::z3::sort domain = Z3Sort::get_z3_sort(domain_sorts[0]);
         ::z3::sort codomain = Z3Sort::get_z3_sort(sorts.back());
         z3_result = d_context->array_sort(domain, codomain);
+      } else {
+        // Multi-argument function: use n-dimensional array
+        std::vector<Z3_sort> z3_domains;
+        for (const auto& ds : domain_sorts) {
+          z3_domains.push_back(Z3Sort::get_z3_sort(ds));
+        }
+        ::z3::sort codomain = Z3Sort::get_z3_sort(sorts.back());
+        
+        Z3_sort array_sort = Z3_mk_array_sort_n(
+          d_context->operator Z3_context(),
+          static_cast<unsigned>(z3_domains.size()),
+          z3_domains.data(),
+          codomain
+        );
+        d_context->check_error();
+        z3_result = ::z3::sort(*d_context, array_sort);
       }
       
-      // Return with function sort flag set to true
-      return std::shared_ptr<Z3Sort>(new Z3Sort(z3_result, true));
+      // Return with function sort flag set to true and store domain sorts
+      return std::shared_ptr<Z3Sort>(new Z3Sort(z3_result, true, domain_sorts));
     }
     
     default:
@@ -1325,11 +1301,27 @@ Z3Solver::mk_term(const Op::Kind& kind,
     // Check if this is a lambda expression (has array sort)
     if (func_expr.get_sort().is_array())
     {
-      // Lambda expressions are arrays - use select for application
-      // For single-argument functions: select(lambda, arg)
-      // For multi-argument: would need to create tuple, but for now support single-arg
-      assert(n_args == 2);  // function + 1 argument
-      z3_result = select(func_expr, z3_args[1]);
+      // Lambda expressions use n-dimensional array sorts in Z3
+      // Use Z3_mk_select_n for multi-dimensional array access
+      if (n_args == 2) {
+        // Single-argument function: select(lambda, arg)
+        z3_result = select(func_expr, z3_args[1]);
+      } else {
+        // Multi-argument function: use select_n with all arguments
+        std::vector<Z3_ast> indices;
+        for (size_t i = 1; i < n_args; ++i) {
+          indices.push_back(z3_args[static_cast<unsigned>(i)]);
+        }
+        
+        Z3_ast result_ast = Z3_mk_select_n(
+          d_context->operator Z3_context(),
+          func_expr,
+          static_cast<unsigned>(indices.size()),
+          indices.data()
+        );
+        d_context->check_error();
+        z3_result = ::z3::expr(*d_context, result_ast);
+      }
     }
     else
     {
