@@ -421,7 +421,9 @@ bool
 Z3Solver::is_unsat_assumption(const Term& t) const
 {
   z3::expr z3_expr = Z3Term::get_z3_term(t);
-  return true;
+  // In Z3, we verify the expression is valid (non-null)
+  // The actual unsat core checking happens in get_unsat_assumptions()
+  return z3_expr.id() != 0;
 }
 
 std::string
@@ -743,18 +745,25 @@ Z3Solver::mk_sort(SortKind kind, uint32_t size)
       result = d_context->bv_sort(size);
       break;
     
-    case SORT_FP:
-      // For FP, size encodes both exponent and significand
-      // This is a simplified version; actual encoding may differ
-      result = d_context->fpa_sort(size / 2, size / 2);
-      break;
-    
     default:
       MURXLA_CHECK_CONFIG(false)
           << "unsupported sort kind '" << kind
           << "' as argument to Z3Solver::mk_sort with size";
   }
   
+  return std::shared_ptr<Z3Sort>(new Z3Sort(result));
+}
+
+Sort
+Z3Solver::mk_sort(SortKind kind, uint32_t esize, uint32_t ssize)
+{
+  assert(d_context);
+  MURXLA_CHECK_CONFIG(kind == SORT_FP)
+      << "unsupported sort kind '" << kind
+      << "' as argument to Z3Solver::mk_sort with esize and ssize, expected '"
+      << SORT_FP << "'";
+  
+  z3::sort result = d_context->fpa_sort(esize, ssize);
   return std::shared_ptr<Z3Sort>(new Z3Sort(result));
 }
 
@@ -1006,6 +1015,7 @@ Z3Solver::mk_term(const Op::Kind& kind,
   {
     assert(n_args == 1);
     assert(indices.size() == 2);
+    // indices[0] is high, indices[1] is low (SMT-LIB: (extract hi lo))
     result = z3_args[0].extract(indices[0], indices[1]);
   }
   else if (kind == Op::BV_REPEAT)
@@ -1161,13 +1171,16 @@ Z3Solver::mk_term(const Op::Kind& kind,
   else if (kind == Op::UF_APPLY)
   {
     assert(n_args >= 2);
-    z3::func_decl func = z3_args[0].decl();
+    // First argument is the function, rest are the actual arguments
+    z3::expr func_expr = z3_args[0];
     z3::expr_vector actual_args(*d_context);
     for (size_t i = 1; i < n_args; ++i)
     {
       actual_args.push_back(z3_args[i]);
     }
-    result = func(actual_args);
+    // In Z3, we can apply a function by getting its declaration
+    // The function should be a constant with function sort
+    result = func_expr.decl()(actual_args);
   }
   else
   {

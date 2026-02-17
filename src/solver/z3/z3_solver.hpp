@@ -159,6 +159,7 @@ class Z3Solver : public Solver
 
   Sort mk_sort(SortKind kind) override;
   Sort mk_sort(SortKind kind, uint32_t size) override;
+  Sort mk_sort(SortKind kind, uint32_t esize, uint32_t ssize) override;
   Sort mk_sort(const std::string& name) override;
 
   Sort mk_sort(SortKind kind, const std::vector<Sort>& sorts) override;
