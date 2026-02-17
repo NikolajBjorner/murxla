@@ -223,6 +223,7 @@ set_sigint_handler_stats(void)
   "  --bitwuzla                 test Bitwuzla\n"                               \
   "  --cvc5                     test cvc5\n"                                   \
   "  --yices                    test Yices\n"                                  \
+  "  --z3                       test Z3\n"                                     \
   "  --smt2 [<binary>]          print SMT-LIB 2 (optionally to solver "        \
   "binary\n"                                                                   \
   "                             via stdout)\n"                                 \
@@ -293,13 +294,19 @@ check_solver(const SolverKind& solver_kind)
     MURXLA_EXIT_ERROR(true) << "Yices not configured";
 #endif
   }
+  else if (solver_kind == SOLVER_Z3)
+  {
+#ifndef MURXLA_USE_Z3
+    MURXLA_EXIT_ERROR(true) << "Z3 not configured";
+#endif
+  }
 }
 
 bool
 is_valid_solver_str(const std::string& name)
 {
   return name == SOLVER_BTOR || name == SOLVER_BITWUZLA || name == SOLVER_CVC5
-         || name == SOLVER_YICES;
+         || name == SOLVER_YICES || name == SOLVER_Z3;
 }
 
 void
@@ -503,6 +510,12 @@ parse_options(Options& options, int argc, char* argv[])
     {
       check_solver(SOLVER_YICES);
       options.solver = SOLVER_YICES;
+      record_args.push_back(arg);
+    }
+    else if (arg == "--z3")
+    {
+      check_solver(SOLVER_Z3);
+      options.solver = SOLVER_Z3;
       record_args.push_back(arg);
     }
     else if (arg == "--smt2")

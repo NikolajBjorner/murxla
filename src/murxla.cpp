@@ -32,6 +32,7 @@
 #include "solver/smt2/smt2_solver.hpp"
 #include "solver/solver_profile.hpp"
 #include "solver/yices/yices_solver.hpp"
+#include "solver/z3/z3_solver.hpp"
 #include "statistics.hpp"
 #include "util.hpp"
 
@@ -527,6 +528,12 @@ Murxla::new_solver(SolverSeedGenerator& sng,
   {
 #if MURXLA_USE_YICES
     return new yices::YicesSolver(sng);
+#endif
+  }
+  else if (solver_kind == SOLVER_Z3)
+  {
+#if MURXLA_USE_Z3
+    return new z3solver::Z3Solver(sng);
 #endif
   }
   else if (solver_kind == SOLVER_SMT2)
