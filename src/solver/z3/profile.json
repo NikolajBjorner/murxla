@@ -12,5 +12,12 @@
       "THEORY_STRING",
       "THEORY_UF"
     ]
+  },
+
+  "sorts": {
+    "exclude": [
+      "SORT_FUN",
+      "SORT_REGLAN"
+    ]
   }
 }

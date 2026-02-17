@@ -193,7 +193,6 @@ class Z3Solver : public Solver
   std::unique_ptr<z3::context> d_context;
   std::unique_ptr<z3::solver> d_solver;
   std::unique_ptr<z3::model> d_model;
-  z3::params d_params;
 };
 
 }  // namespace z3solver
