@@ -24,6 +24,7 @@ const SolverKind SOLVER_BITWUZLA = "bitwuzla";
 const SolverKind SOLVER_CVC5  = "cvc5";
 const SolverKind SOLVER_SMT2  = "smt2";
 const SolverKind SOLVER_YICES = "yices";
+const SolverKind SOLVER_Z3    = "z3";
 
 struct Options
 {

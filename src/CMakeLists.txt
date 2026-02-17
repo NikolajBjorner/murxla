@@ -31,6 +31,7 @@ set(murxla_src_files
   solver/cvc5/cvc5_solver.cpp
   solver/cvc5/cvc5_tracer.cpp
   solver/yices/yices_solver.cpp
+  solver/z3/z3_solver.cpp
   solver/smt2/smt2_solver.cpp
   solver/meta/check_solver.cpp
   solver/meta/shadow_solver.cpp
@@ -78,6 +79,12 @@ if (Yices_FOUND)
   target_compile_definitions(murxla PUBLIC MURXLA_USE_YICES)
 endif()
 
+if (Z3_FOUND)
+  target_include_directories(murxla PRIVATE ${Z3_INCLUDE_DIR})
+  target_link_libraries(murxla PRIVATE ${Z3_LIBRARIES})
+  target_compile_definitions(murxla PUBLIC MURXLA_USE_Z3)
+endif()
+
 # Generate solver profile headers
 file(GENERATE
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/gen_profile.cmake"
@@ -92,7 +99,7 @@ namespace ${SOLVER} {\n\
 file(WRITE "${PROFILE_OUTPUT_FILE}" "${PROFILE}")]]
 )
 
-foreach(solver btor bitwuzla cvc5 yices smt2)
+foreach(solver btor bitwuzla cvc5 yices z3 smt2)
   set(JSON_FILE
       "${CMAKE_CURRENT_SOURCE_DIR}/solver/${solver}/profile.json")
   set(PROFILE_HEADER_FILE
