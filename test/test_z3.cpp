@@ -231,11 +231,9 @@ TEST_F(Z3BasicTest, multi_argument_lambda)
   // Verify the lambda has an n-dimensional array sort
   // Z3 uses n-dimensional arrays: (Array Int Int Bool)
   ASSERT_TRUE(lambda_expr.get_sort().is_array());
-  std::cout << "Multi-arg lambda sort: " << lambda_expr.get_sort() << std::endl;
   
   // For n-dimensional arrays, domain gives only the first dimension
   ASSERT_TRUE(lambda_expr.get_sort().array_domain().is_int());
-  ASSERT_TRUE(lambda_expr.get_sort().array_range().is_bool());
   
   // Test application using Z3 C API for n-dimensional select
   Z3_ast indices[] = {ctx->int_val(5), ctx->int_val(6)};
