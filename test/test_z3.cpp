@@ -188,4 +188,30 @@ TEST_F(Z3BasicTest, multi_argument_division)
   ASSERT_EQ(check, z3::sat);
 }
 
+TEST_F(Z3BasicTest, lambda_functions)
+{
+  // Test that Z3 supports lambda expressions (function sorts)
+  z3::expr x = ctx->int_const("x");
+  z3::expr body = x > ctx->int_val(0);
+  
+  // Create lambda: lambda x. x > 0
+  z3::expr lambda_expr = z3::lambda(x, body);
+  
+  // Verify the lambda has an array sort (Z3 represents functions as arrays)
+  ASSERT_TRUE(lambda_expr.get_sort().is_array());
+  
+  // The array sort should be Int -> Bool
+  ASSERT_TRUE(lambda_expr.get_sort().array_domain().is_int());
+  ASSERT_TRUE(lambda_expr.get_sort().array_range().is_bool());
+  
+  // Test lambda application
+  z3::expr five = ctx->int_val(5);
+  z3::expr app = z3::select(lambda_expr, five);
+  
+  // lambda(5) should be 5 > 0, which is true
+  solver->add(app);
+  z3::check_result check = solver->check();
+  ASSERT_EQ(check, z3::sat);
+}
+
 #endif  // MURXLA_USE_Z3

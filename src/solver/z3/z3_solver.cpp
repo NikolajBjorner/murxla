@@ -72,7 +72,9 @@ Z3Sort::to_string() const
 bool
 Z3Sort::is_array() const
 {
-  return d_sort.is_array();
+  // In Z3, function sorts are represented as array sorts
+  // Return true only for "pure" array sorts (not function sorts)
+  return d_sort.is_array() && !d_is_fun_sort;
 }
 
 bool
@@ -102,9 +104,8 @@ Z3Sort::is_fp() const
 bool
 Z3Sort::is_fun() const
 {
-  // Z3 doesn't have a dedicated function sort - functions are represented via func_decl
-  // For our purposes, we'll return false here and handle function terms differently
-  return false;
+  // Z3 represents function sorts as array sorts with a flag
+  return d_is_fun_sort;
 }
 
 bool
@@ -177,24 +178,32 @@ uint32_t
 Z3Sort::get_fun_arity() const
 {
   assert(is_fun());
-  // Not supported for Z3 sorts directly - function sorts not first-class in Z3
-  return 0;
+  // For function sorts represented as arrays, arity is always 1
+  // (single domain sort mapped to codomain)
+  // Multi-argument functions would need nested arrays or tuples
+  return 1;
 }
 
 Sort
 Z3Sort::get_fun_codomain_sort() const
 {
   assert(is_fun());
-  // Not supported for Z3 sorts directly - function sorts not first-class in Z3
-  return nullptr;
+  // Function sort is represented as an array sort: domain -> codomain
+  // The codomain is the array range
+  ::z3::sort range = d_sort.array_range();
+  return std::shared_ptr<Z3Sort>(new Z3Sort(range, false));
 }
 
 std::vector<Sort>
 Z3Sort::get_fun_domain_sorts() const
 {
   assert(is_fun());
-  // Not supported for Z3 sorts directly - function sorts not first-class in Z3
-  return {};
+  // Function sort is represented as an array sort: domain -> codomain
+  // The domain is the array index sort
+  std::vector<Sort> domains;
+  ::z3::sort domain = d_sort.array_domain();
+  domains.push_back(std::shared_ptr<Z3Sort>(new Z3Sort(domain, false)));
+  return domains;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -505,9 +514,23 @@ Z3Solver::mk_fun(const std::string& name,
                  const std::vector<Term>& args,
                  Term body)
 {
-  // Z3 doesn't support first-class functions in the same way
-  // Functions must be created via function declarations and applications
-  return nullptr;
+  // Z3 represents functions as lambda expressions
+  // Lambda expressions have array sorts (domain -> codomain)
+  assert(d_context);
+  
+  if (args.empty()) {
+    // No arguments - not a valid function
+    return nullptr;
+  }
+  
+  // Convert Murxla terms to Z3 expressions (these are the bound variables)
+  ::z3::expr_vector z3_args = Z3Term::terms_to_z3_terms(*d_context, args);
+  ::z3::expr z3_body = Z3Term::get_z3_term(body);
+  
+  // Create lambda expression using global z3 namespace
+  ::z3::expr lambda_expr = ::z3::lambda(z3_args, z3_body);
+  
+  return std::shared_ptr<Z3Term>(new Z3Term(lambda_expr));
 }
 
 Term
@@ -864,22 +887,56 @@ Z3Solver::mk_sort(SortKind kind, const std::vector<Sort>& sorts)
     
     case SORT_FUN:
     {
+      // Z3 represents function sorts as array sorts
+      // For now, support only single-argument functions: domain -> codomain
+      // Multi-argument functions would require tuple domains
       assert(sorts.size() >= 2);
-      ::z3::sort_vector domain = Z3Sort::sorts_to_z3_sorts(*d_context, 
-                                                         std::vector<Sort>(sorts.begin(), sorts.end() - 1));
-      ::z3::sort range = Z3Sort::get_z3_sort(sorts.back());
-      // Use C API for function sort since there's no easy way in C++ API
-      std::vector<Z3_sort> c_domain;
-      for (unsigned i = 0; i < domain.size(); ++i)
-      {
-        c_domain.push_back(domain[i]);
+      
+      if (sorts.size() == 2) {
+        // Simple case: single domain -> codomain
+        ::z3::sort domain = Z3Sort::get_z3_sort(sorts[0]);
+        ::z3::sort codomain = Z3Sort::get_z3_sort(sorts[1]);
+        z3_result = d_context->array_sort(domain, codomain);
+      } else {
+        // Multiple domain sorts: use tuple for domain
+        // Create a tuple sort for the domain
+        std::vector<Z3_sort> domain_sorts;
+        std::string tuple_name = "FunDomain_" + std::to_string(sorts.size() - 1);
+        std::vector<std::string> field_names;
+        
+        for (size_t i = 0; i < sorts.size() - 1; ++i) {
+          domain_sorts.push_back(Z3Sort::get_z3_sort(sorts[i]));
+          field_names.push_back("arg" + std::to_string(i));
+        }
+        
+        // Create tuple sort using C API
+        std::vector<Z3_symbol> field_symbols;
+        for (const auto& name : field_names) {
+          field_symbols.push_back(Z3_mk_string_symbol(d_context->operator Z3_context(), name.c_str()));
+        }
+        
+        Z3_symbol tuple_symbol = Z3_mk_string_symbol(d_context->operator Z3_context(), tuple_name.c_str());
+        Z3_func_decl tuple_constructor;
+        std::vector<Z3_func_decl> tuple_projections(domain_sorts.size());
+        
+        Z3_sort tuple_sort = Z3_mk_tuple_sort(
+          d_context->operator Z3_context(),
+          tuple_symbol,
+          static_cast<unsigned>(domain_sorts.size()),
+          field_symbols.data(),
+          domain_sorts.data(),
+          &tuple_constructor,
+          tuple_projections.data()
+        );
+        d_context->check_error();
+        
+        ::z3::sort domain((*d_context), tuple_sort);
+        ::z3::sort codomain = Z3Sort::get_z3_sort(sorts.back());
+        z3_result = d_context->array_sort(domain, codomain);
       }
-      // Function sorts are represented as uninterpreted sorts for now
-      // Z3 doesn't directly support function sorts as first-class sorts
-      // We'll create a uninterpreted sort with a special name
-      std::string fun_name = "FunSort_" + std::to_string(sorts.size());
-      z3_result = d_context->uninterpreted_sort(d_context->str_symbol(fun_name.c_str()));
-      break;
+      
+      // Return with function sort flag set to true
+      return std::shared_ptr<Z3Sort>(new Z3Sort(z3_result, true));
     }
     
     default:
@@ -1264,14 +1321,26 @@ Z3Solver::mk_term(const Op::Kind& kind,
     assert(n_args >= 2);
     // First argument is the function, rest are the actual arguments
     ::z3::expr func_expr = z3_args[0];
-    ::z3::expr_vector actual_args(*d_context);
-    for (size_t i = 1; i < n_args; ++i)
+    
+    // Check if this is a lambda expression (has array sort)
+    if (func_expr.get_sort().is_array())
     {
-      actual_args.push_back(z3_args[static_cast<unsigned>(i)]);
+      // Lambda expressions are arrays - use select for application
+      // For single-argument functions: select(lambda, arg)
+      // For multi-argument: would need to create tuple, but for now support single-arg
+      assert(n_args == 2);  // function + 1 argument
+      z3_result = select(func_expr, z3_args[1]);
     }
-    // In Z3, we can apply a function by getting its declaration
-    // The function should be a constant with function sort
-    z3_result = func_expr.decl()(actual_args);
+    else
+    {
+      // Traditional function declaration application
+      ::z3::expr_vector actual_args(*d_context);
+      for (size_t i = 1; i < n_args; ++i)
+      {
+        actual_args.push_back(z3_args[static_cast<unsigned>(i)]);
+      }
+      z3_result = func_expr.decl()(actual_args);
+    }
   }
   else
   {

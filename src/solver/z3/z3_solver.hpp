@@ -36,7 +36,8 @@ class Z3Sort : public AbsSort
   static z3::sort_vector sorts_to_z3_sorts(z3::context& ctx,
                                             const std::vector<Sort>& sorts);
 
-  Z3Sort(z3::sort sort) : d_sort(sort) {}
+  Z3Sort(z3::sort sort, bool is_fun_sort = false) 
+      : d_sort(sort), d_is_fun_sort(is_fun_sort) {}
   ~Z3Sort() override {}
   size_t hash() const override;
   bool equals(const Sort& other) const override;
@@ -63,6 +64,7 @@ class Z3Sort : public AbsSort
 
  private:
   z3::sort d_sort;
+  bool d_is_fun_sort;  // Track if this array sort represents a function sort
 };
 
 /* -------------------------------------------------------------------------- */
